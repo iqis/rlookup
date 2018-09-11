@@ -1,0 +1,22 @@
+Package: jollyrogr
+Type: Package
+Title: Recoding variables in a data frame through a value map
+Version: 0.1.0
+Author: Iqis Gnahz <iqis.gnahz@gmail.com>
+Maintainer: Iqis Gnahz <iqis.gnahz@gmail.com>
+Description: Program and data should be separate. 
+    Use this package to create a value map file, editing the pairs, and recode variables in a data frame.
+    Value mapping can be seen as a surjective, which can yield to a cover, which is often made of tarpaulin, which is often used by a sailor, whom are sometimes pirates, whom are in fictions associated with "treasure map", which is a literal near synonym of a "value map".
+    Hence the name.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+Imports: dplyr,
+    purrr,
+    readr
+Depends: magrittr
+RoxygenNote: 6.1.0

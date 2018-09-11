@@ -1,0 +1,8 @@
+col_name,old_value,new_value
+cyl,6,Peppy Six
+cyl,4,Thrifty Four
+cyl,8,Thirsty Eight
+vs,0,Inline
+vs,1,V
+am,1,Auto
+am,0,Manual
