@@ -1,7 +1,7 @@
 Package: jollyrogr
 Type: Package
 Title: Recoding variables in a data frame through a value map
-Version: 0.1.0
+Version: 0.1.0.9000
 Author: Iqis Gnahz <iqis.gnahz@gmail.com>
 Maintainer: Iqis Gnahz <iqis.gnahz@gmail.com>
 Description: Program and data should be separate. 
