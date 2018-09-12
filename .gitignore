@@ -3,4 +3,4 @@
 .RData
 .Ruserdata
 inst/doc
-fiddle.R
+tests/fiddle.R

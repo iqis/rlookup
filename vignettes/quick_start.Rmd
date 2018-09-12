@@ -1,5 +1,5 @@
 ---
-title: "Quick Start Guide to jollyrogr"
+title: "Quick Start Guide to rlookup"
 author: Iqis Gnahz
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,13 +16,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-- Use `jollyrogr` to create a value map from a data frame.
+- Use `rlookup` to create a value map from a data frame.
 - Make desired change to the value map file.
 - Apply the value map to the data frame. 
 
-Attach and load `jollyrogr`. The `%>%` piping operator from `magrittr` is strongly recommended.
+Attach and load `rlookup`. The `%>%` piping operator from `magrittr` is strongly recommended.
 ```{r}
-library(jollyrogr)
+library(rlookup)
 library(magrittr)
 ```
 
@@ -32,7 +32,7 @@ library(magrittr)
 We are using the good old `mtcars` data to illustrate the use of this package.
 
 ```{r}
-mtcars <- mtcars %>% rownames_to_column("model")
+mtcars <- mtcars %>% tibble::rownames_to_column("model")
 head(mtcars)
 ```
 
@@ -42,32 +42,32 @@ head(mtcars)
 
 We desire to recode `cyl`, `vs`, `am` variables, which are respectively cylinder count, engine configuration, and transmission type.
 
-A value map is called a `cover` in `jollyrogr`; it is a data frame that has three columns: `col_name`, `old_value` and `new_value`, containing respectively:
+A value map is called a `lookup` in `rlookup`; it is a data frame that has three columns: `col_name`, `old_value` and `new_value`, containing respectively:
 
 - column name 
 - distinct values of the column, to be replaced with
 - manually specified values for replacement
 
-Use `cover()` function to select desired columns from a data frame to make a value map. The `new_value` column is empty.
+Use `make_lookup()` function to select desired columns from a data frame to make a value map. The `new_value` column is empty.
 
 ```{r}
-mtcars_cover <- mtcars %>% cover(cyl, vs, am)
-mtcars_cover
+mtcars_lookup <- mtcars %>% make_lookup(cyl, vs, am)
+mtcars_lookup
 ```
 
 
 
 ## Write and read value map to file
 
-Specify the path in `write_cover()`. Give file name a `csv` suffix, as the output is in CSV format.
+Specify the path in `write_lookup()`. Give file name a `csv` suffix, as the output is in CSV format.
 
 
 ```{r}
 # Write the value map
-mtcars_cover %>% write_cover("mtcars_cover.csv")
+mtcars_lookup %>% write_lookup("mtcars_lookup.csv")
 
 # Examine the file by reading it
-read_cover("mtcars_cover.csv")
+read_lookup("mtcars_lookup.csv")
 
 ```
 
@@ -75,16 +75,16 @@ read_cover("mtcars_cover.csv")
 
 Edit the `new_value` column using a spreadsheet program, such as OpenOffice Calc or Microsoft Excel; if unavailable, use a free CSV editor such as {Ron's Editor}[https://www.ronsplace.eu/Products/RonsEditor]. 
 
-From your R session, `edit_cover()` is available to make a quick edit. If the funciton is supplied with a value map data frame, it will return the modified value map;If supplied with a file path to a value map file, modifications will be directly saved to the file. In both instances, the user will be asked to confirm the change.
+From your R session, `edit_lookup()` is available to make a quick edit. If the funciton is supplied with a value map data frame, it will return the modified value map;If supplied with a file path to a value map file, modifications will be directly saved to the file. In both instances, the user will be asked to confirm the change.
 
 You may delete value sets (rows) if you don't want to map them.
 
-Do not try anything funny. As with many R programs, `jollyrogr` is not designed to protect the user from himself.
+Do not try anything funny. As with many R programs, `rlookup` is not designed to protect the user from himself.
 
 ```{r}
 # Let's pretend that you've made desired change to the `new_value`.
-read_cover("mtcars_cover_edited.csv") %>% write_cover("mtcars_cover.csv", overwrite = TRUE)
-read_cover("mtcars_cover.csv")
+read_lookup("mtcars_lookup_edited.csv") %>% write_lookup("mtcars_lookup.csv", overwrite = TRUE)
+read_lookup("mtcars_lookup.csv")
 
 ```
 
@@ -94,7 +94,7 @@ Now the value map is ready, finally it's time to replace values in the the data 
 
 
 ```{r}
-mtcars_recoded <- mtcars %>% use_cover("mtcars_cover.csv")
+mtcars_recoded <- mtcars %>% use_lookup("mtcars_lookup.csv")
 mtcars_recoded
 
 ```
