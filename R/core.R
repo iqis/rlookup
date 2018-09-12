@@ -15,8 +15,9 @@
 #' @import dplyr purrr
 #' @export
 cover <- function(.data, ...){
+        dots <- quos(...)
         unique_values <-   .data %>%
-                select(!!!quos(...)) %>%
+                select(!!!dots) %>%
                 map(unique)
         namez <- names(unique_values) # colnames
 
@@ -164,3 +165,39 @@ use_cover <- function(.data, cover, mark = c("old", "new", "both"), drop_old = T
         as_tibble(res)
 
 }
+
+
+#' Batch modify a value map
+#'
+#' @param cover a value map
+#' @param .fun a function to be applied to
+#' @param ... columns
+#' @import dplyr readr
+#' @export
+modify_cover <- function(cover, .fun, ...){
+        if (is.character(cover)) { # read from file, if so deviced
+                path <- cover
+                cover <- read_cover(path)
+                message(cat("Modifying a file...\n"))
+        }
+
+        dots <- paste(match.call(expand.dots = FALSE)$...)
+        if (length(dots) == 0) dots <- unique(cover$col_name)
+
+        fun <- as_mapper(.fun)
+
+        sub_cover <- cover %>%
+                filter(col_name %in% dots) %>%
+                mutate(new_value = fun(old_value))
+
+        cover <- cover %>%
+                anti_join(sub_cover, by = c("col_name", "old_value")) %>%
+                bind_rows(sub_cover)
+
+
+        if (exists("path")) { # write to file, if so deviced
+                write_csv(cover, path, na = "", append = FALSE)
+        }
+        invisible(cover)
+}
+
