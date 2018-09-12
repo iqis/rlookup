@@ -2,6 +2,7 @@
 
 export(cover)
 export(edit_cover)
+export(modify_cover)
 export(read_cover)
 export(use_cover)
 export(write_cover)

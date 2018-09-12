@@ -32,6 +32,7 @@ library(magrittr)
 We are using the good old `mtcars` data to illustrate the use of this package.
 
 ```{r}
+mtcars <- mtcars %>% rownames_to_column("model")
 head(mtcars)
 ```
 
