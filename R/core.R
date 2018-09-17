@@ -48,7 +48,7 @@ write_lookup <- function(lookup, path, overwrite = FALSE, edit = FALSE) {
         if (its_there & overwrite == FALSE) { # join file with new lookup
                 lookup0 <- read_lookup(path)
                 lookup <- lookup %>%
-                        select(-new_value) %>%
+                        select(-.data$new_value) %>%
                         left_join(lookup0, by = c("col_name", "old_value"))
         }
 
@@ -194,8 +194,8 @@ modify_lookup <- function(lookup, .fun, ...){
         fun <- as_mapper(.fun)
 
         sub_lookup <- lookup %>%
-                filter(col_name %in% dots) %>%
-                mutate(new_value = fun(old_value))
+                filter(.data$col_name %in% dots) %>%
+                mutate(new_value = fun(.data$old_value))
 
         lookup <- lookup %>%
                 anti_join(sub_lookup, by = c("col_name", "old_value")) %>%

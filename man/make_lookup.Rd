@@ -12,5 +12,6 @@ make_lookup(.data, ...)
 \item{...}{column names, tidy}
 }
 \description{
-Initialize a value map from a data frame
+Make a value map rom a data frame according to its column names.
+The resulting value map is a new data frame.
 }

@@ -14,5 +14,6 @@ modify_lookup(lookup, .fun, ...)
 \item{...}{a vector containing col_name}
 }
 \description{
-Batch modify a value map
+Apply a function on `old_value`s and assign the result to `new_value`s.
+Changes made on an object yields a new copy; Changes made on a file are written back to the file.
 }

@@ -12,7 +12,7 @@ use_lookup(.data, lookup, mark = c("old", "new", "both"),
 
 \item{lookup}{a value map, or a path pointing to a file containing such}
 
-\item{mark}{out of old and new, mark which column name? choose from: c("old", "new", "both")}
+\item{mark}{mark which column name in the resulting data frame? choose from: "old", "new" or "both"}
 
 \item{drop_old}{keep only the new column after recoding}
 }

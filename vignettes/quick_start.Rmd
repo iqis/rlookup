@@ -64,10 +64,10 @@ Specify the path in `write_lookup()`. Give file name a `csv` suffix, as the outp
 
 ```{r}
 # Write the value map
-mtcars_lookup %>% write_lookup("mtcars_lookup.csv")
+# mtcars_lookup %>% write_lookup("mtcars_lookup.csv")
 
 # Examine the file by reading it
-read_lookup("mtcars_lookup.csv")
+# read_lookup("mtcars_lookup.csv")
 
 ```
 

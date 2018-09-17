@@ -12,5 +12,5 @@ edit_lookup(lookup, quiet = FALSE)
 \item{quiet}{commit the modification without confirmation?}
 }
 \description{
-Edit value map
+Changes made on an object yields a new copy; Changes made on a file are written back to the file.
 }
