@@ -46,6 +46,8 @@ build_lookup <- function(.data, ...){
 #' @import dplyr readr
 #' @export
 write_lookup <- function(lookup, path, overwrite = FALSE) {
+        if (!is_lookup(lookup)) {stop("not a `lookup` object")}
+
         its_there <- file.exists(path)
 
         if (its_there & overwrite == FALSE) { # join file with new lookup
@@ -66,6 +68,7 @@ write_lookup <- function(lookup, path, overwrite = FALSE) {
 #' @export
 read_lookup <- function(path){suppressMessages({
         res <- read_csv(path, col_names = TRUE, col_types = cols(.default = "c"))
+        stopifnot(c("col_name", "old_value", "new_value") %in% colnames(res))
         class(res) <- c("lookup", class(res))
         return(res)
 })}
@@ -112,6 +115,7 @@ edit_lookup <- function(lookup, quiet = FALSE) {
                 }
         }
 
+        class(lookup) <- c("lookup", class(lookup))
         invisible(lookup)
 }
 
@@ -124,7 +128,7 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #' @param drop_old keep only the new column after recoding
 #' @import dplyr
 #' @export
-use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), use_na = TRUE, drop_old = TRUE) {
+use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), use_na = FALSE, drop_old = TRUE) {
         if (is.character(lookup)) { # read from file, if so deviced
                 path <- lookup
                 lookup <- read_lookup(path)
@@ -213,3 +217,7 @@ modify_lookup <- function(lookup, .fun, ...){
         invisible(lookup)
 }
 
+
+is_lookup <- function(x) {
+        "lookup" %in% class(x)
+}
