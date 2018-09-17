@@ -23,14 +23,16 @@ build_lookup <- function(.data, ...){
                 map(unique)
         namez <- names(unique_values) # colnames
 
-        lookup <- data.frame()
+        res <- data.frame()
         for (i in seq_along(unique_values)) {
                 single <- data.frame(namez[i], unique_values[i], NA)
                 names(single) <- c("col_name", "old_value", "new_value")
-                lookup <- rbind(lookup, single)
+                res <- rbind(lookup, single)
         }
 
-        return(lookup %>% transmute_all(as.character) %>% as_tibble())
+        res <- res %>% transmute_all(as.character) %>% as_tibble()
+        class(res) <- c("lookup", class(res))
+        return(res)
 }
 
 
@@ -67,7 +69,9 @@ write_lookup <- function(lookup, path, overwrite = FALSE, edit = FALSE) {
 #' @import readr
 #' @export
 read_lookup <- function(path){suppressMessages({
-        read_csv(path, col_names = TRUE, col_types = cols(.default = "c"))
+        res <- read_csv(path, col_names = TRUE, col_types = cols(.default = "c"))
+        class(res) <- c("lookup", class(res))
+        return(res)
 })}
 
 
