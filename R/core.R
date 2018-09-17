@@ -16,6 +16,8 @@
 #' @param ... column names, tidy
 #' @import dplyr purrr
 #' @export
+#' @examples
+#'
 build_lookup <- function(.data, ...){
         dots <- quos(...)
         unique_values <-   .data %>%
@@ -41,10 +43,9 @@ build_lookup <- function(.data, ...){
 #' @param lookup a lookup table
 #' @param path a character string
 #' @param overwrite overwriting existing file from \code{path}
-#' @param edit invoke \code{edit_lookup} before writing to file
 #' @import dplyr readr
 #' @export
-write_lookup <- function(lookup, path, overwrite = FALSE, edit = FALSE) {
+write_lookup <- function(lookup, path, overwrite = FALSE) {
         its_there <- file.exists(path)
 
         if (its_there & overwrite == FALSE) { # join file with new lookup
@@ -54,13 +55,8 @@ write_lookup <- function(lookup, path, overwrite = FALSE, edit = FALSE) {
                         left_join(lookup0, by = c("col_name", "old_value"))
         }
 
-        if (edit) {
-                edit_lookup(lookup)
-        }
-
-
         write_csv(lookup, path, na = "", append = FALSE)
-        cat("Written at ", path)
+        message(cat("Written at ", path))
 }
 
 #' Read lookup table from file

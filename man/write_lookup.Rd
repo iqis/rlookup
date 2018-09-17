@@ -4,7 +4,7 @@
 \alias{write_lookup}
 \title{Write lookup table to a file}
 \usage{
-write_lookup(lookup, path, overwrite = FALSE, edit = FALSE)
+write_lookup(lookup, path, overwrite = FALSE)
 }
 \arguments{
 \item{lookup}{a lookup table}
@@ -12,8 +12,6 @@ write_lookup(lookup, path, overwrite = FALSE, edit = FALSE)
 \item{path}{a character string}
 
 \item{overwrite}{overwriting existing file from \code{path}}
-
-\item{edit}{invoke \code{edit_lookup} before writing to file}
 }
 \description{
 Write lookup table to a file
