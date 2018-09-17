@@ -1,6 +1,6 @@
 #' rlookup
 #'
-#' Lookup utilities for neatly recoding strings in a data frame
+#' Lookup utilities for recoding strings in a data frame
 #'
 #' @name rlookup-package
 #' @docType package
