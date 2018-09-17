@@ -1,22 +1,24 @@
 #' rlookup
 #'
-#' Recoding variables in a data frame through a value map, through making a surjection of the old_value to the new_value
+#' Lookup utilities for neatly recoding strings in a data frame
 #'
 #' @name rlookup-package
+#' @import magrittr
 #' @docType package
 "_PACKAGE"
 
 
-#' Initialize a value map from a data frame
+#' Initialize a lookup table from a data frame
 #'
-#' Make a value map rom a data frame according to its column names.
-#' The resulting value map is a new data frame.
+#' Build a lookup table rom a data frame according to its column names.
+#' The resulting lookup table is a new data frame.
 #'
 #' @param .data a data frame
 #' @param ... column names, tidy
 #' @import dplyr purrr
+#' @example
 #' @export
-make_lookup <- function(.data, ...){
+build_lookup <- function(.data, ...){
         dots <- quos(...)
         unique_values <-   .data %>%
                 select(!!!dots) %>%
@@ -34,9 +36,9 @@ make_lookup <- function(.data, ...){
 }
 
 
-#' Write value map to a file
+#' Write lookup table to a file
 #'
-#' @param lookup a value map
+#' @param lookup a lookup table
 #' @param path a character string
 #' @param overwrite overwriting existing file from \code{path}
 #' @param edit invoke \code{edit_lookup} before writing to file
@@ -61,9 +63,9 @@ write_lookup <- function(lookup, path, overwrite = FALSE, edit = FALSE) {
         cat("Written at ", path)
 }
 
-#' Read value map from file
+#' Read lookup table from file
 #'
-#' @param path a path pointing to a value map
+#' @param path a path pointing to a lookup table
 #' @import readr
 #' @export
 read_lookup <- function(path){suppressMessages({
@@ -71,11 +73,11 @@ read_lookup <- function(path){suppressMessages({
 })}
 
 
-#' Edit value map
+#' Edit lookup table
 #'
 #' Changes made on an object yields a new copy; Changes made on a file are written back to the file.
 #'
-#' @param lookup a value map, or a path pointing to a file containing such
+#' @param lookup a lookup table, or a path pointing to a file containing such
 #' @param quiet commit the modification without confirmation?
 #' @import dplyr readr utils
 #' @export
@@ -115,10 +117,10 @@ edit_lookup <- function(lookup, quiet = FALSE) {
         invisible(lookup)
 }
 
-#' Use value map to replace values in a data frame
+#' Use lookup table to replace values in a data frame
 #'
 #' @param .data a data frame
-#' @param lookup a value map, or a path pointing to a file containing such
+#' @param lookup a lookup table, or a path pointing to a file containing such
 #' @param mark mark which column name in the resulting data frame? choose from: "old", "new" or "both"
 #' @param drop_old keep only the new column after recoding
 #' @import dplyr
@@ -171,12 +173,12 @@ use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), drop_old =
 }
 
 
-#' Batch modify a value map
+#' Batch modify a lookup table
 #'
 #' Apply a function on `old_value`s and assign the result to `new_value`s.
 #' Changes made on an object yields a new copy; Changes made on a file are written back to the file.
 #'
-#' @param lookup a value map
+#' @param lookup a lookup table
 #' @param .fun a function to be applied to old_value
 #' @param ... a vector containing col_name
 #' @import dplyr readr
