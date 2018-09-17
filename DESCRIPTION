@@ -1,11 +1,11 @@
 Package: rlookup
 Type: Package
-Title: Recoding variables in a data frame through a value map (lookup table)
+Title: Lookup utilities for neatly recoding strings in a data frame
 Version: 0.1.0.9000
 Author: Iqis Gnahz <iqis.gnahz@gmail.com>
 Maintainer: Iqis Gnahz <iqis.gnahz@gmail.com>
 Description: Program and data should be separate. Use this package to create a value map file, editing the pairs, and recode variables in a data frame.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: knitr,
@@ -15,5 +15,4 @@ VignetteBuilder: knitr
 Imports: dplyr,
     purrr,
     readr
-Depends: magrittr
 RoxygenNote: 6.1.0

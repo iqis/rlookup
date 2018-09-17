@@ -2,12 +2,12 @@
 % Please edit documentation in R/core.R
 \name{write_lookup}
 \alias{write_lookup}
-\title{Write value map to a file}
+\title{Write lookup table to a file}
 \usage{
 write_lookup(lookup, path, overwrite = FALSE, edit = FALSE)
 }
 \arguments{
-\item{lookup}{a value map}
+\item{lookup}{a lookup table}
 
 \item{path}{a character string}
 
@@ -16,5 +16,5 @@ write_lookup(lookup, path, overwrite = FALSE, edit = FALSE)
 \item{edit}{invoke \code{edit_lookup} before writing to file}
 }
 \description{
-Write value map to a file
+Write lookup table to a file
 }

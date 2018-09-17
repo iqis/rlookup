@@ -2,7 +2,7 @@
 % Please edit documentation in R/core.R
 \name{use_lookup}
 \alias{use_lookup}
-\title{Use value map to replace values in a data frame}
+\title{Use lookup table to replace values in a data frame}
 \usage{
 use_lookup(.data, lookup, mark = c("old", "new", "both"),
   drop_old = TRUE)
@@ -10,12 +10,12 @@ use_lookup(.data, lookup, mark = c("old", "new", "both"),
 \arguments{
 \item{.data}{a data frame}
 
-\item{lookup}{a value map, or a path pointing to a file containing such}
+\item{lookup}{a lookup table, or a path pointing to a file containing such}
 
 \item{mark}{mark which column name in the resulting data frame? choose from: "old", "new" or "both"}
 
 \item{drop_old}{keep only the new column after recoding}
 }
 \description{
-Use value map to replace values in a data frame
+Use lookup table to replace values in a data frame
 }

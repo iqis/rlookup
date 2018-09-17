@@ -6,5 +6,5 @@
 \alias{rlookup-package}
 \title{rlookup}
 \description{
-Recoding variables in a data frame through a value map, through making a surjection of the old_value to the new_value
+Lookup utilities for neatly recoding strings in a data frame
 }

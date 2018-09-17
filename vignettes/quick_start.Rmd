@@ -48,10 +48,10 @@ A value map is called a `lookup` in `rlookup`; it is a data frame that has three
 - distinct values of the column, to be replaced with
 - manually specified values for replacement
 
-Use `make_lookup()` function to select desired columns from a data frame to make a value map. The `new_value` column is empty.
+Use `build_lookup()` function to select desired columns from a data frame to make a value map. The `new_value` column is empty.
 
 ```{r}
-mtcars_lookup <- mtcars %>% make_lookup(cyl, vs, am)
+mtcars_lookup <- mtcars %>% build_lookup(cyl, vs, am)
 mtcars_lookup
 ```
 

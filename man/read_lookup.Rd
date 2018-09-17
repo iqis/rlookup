@@ -2,13 +2,13 @@
 % Please edit documentation in R/core.R
 \name{read_lookup}
 \alias{read_lookup}
-\title{Read value map from file}
+\title{Read lookup table from file}
 \usage{
 read_lookup(path)
 }
 \arguments{
-\item{path}{a path pointing to a value map}
+\item{path}{a path pointing to a lookup table}
 }
 \description{
-Read value map from file
+Read lookup table from file
 }

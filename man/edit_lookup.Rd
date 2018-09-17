@@ -2,12 +2,12 @@
 % Please edit documentation in R/core.R
 \name{edit_lookup}
 \alias{edit_lookup}
-\title{Edit value map}
+\title{Edit lookup table}
 \usage{
 edit_lookup(lookup, quiet = FALSE)
 }
 \arguments{
-\item{lookup}{a value map, or a path pointing to a file containing such}
+\item{lookup}{a lookup table, or a path pointing to a file containing such}
 
 \item{quiet}{commit the modification without confirmation?}
 }
