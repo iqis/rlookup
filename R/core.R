@@ -16,8 +16,6 @@
 #' @param ... column names, tidy
 #' @import dplyr purrr
 #' @export
-#' @examples
-#'
 build_lookup <- function(.data, ...){
         dots <- quos(...)
         unique_values <-   .data %>%

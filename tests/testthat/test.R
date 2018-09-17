@@ -1,5 +1,5 @@
 context("build")
-
+library(ggplot2)
 data("mpg", package = "ggplot2")
 mpg_lookup <- mpg %>% build_lookup(cyl, drv, fl, class)
 
