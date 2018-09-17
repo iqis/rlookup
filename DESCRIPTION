@@ -13,6 +13,7 @@ Suggests: knitr,
     testthat
 VignetteBuilder: knitr
 Imports: dplyr,
+    magrittr,
     purrr,
     readr
 RoxygenNote: 6.1.0
