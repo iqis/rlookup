@@ -1,6 +1,6 @@
 #' rlookup
 #'
-#' Recoding variables in a data frame through a value map
+#' Recoding variables in a data frame through a value map, through making a surjection of the old_value to the new_value
 #'
 #' @name rlookup-package
 #' @docType package
@@ -9,6 +9,8 @@
 
 #' Initialize a value map from a data frame
 #'
+#' Make a value map rom a data frame according to its column names.
+#' The resulting value map is a new data frame.
 #'
 #' @param .data a data frame
 #' @param ... column names, tidy
@@ -71,6 +73,8 @@ read_lookup <- function(path){suppressMessages({
 
 #' Edit value map
 #'
+#' Changes made on an object yields a new copy; Changes made on a file are written back to the file.
+#'
 #' @param lookup a value map, or a path pointing to a file containing such
 #' @param quiet commit the modification without confirmation?
 #' @import dplyr readr utils
@@ -115,7 +119,7 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #'
 #' @param .data a data frame
 #' @param lookup a value map, or a path pointing to a file containing such
-#' @param mark out of old and new, mark which column name? choose from: c("old", "new", "both")
+#' @param mark mark which column name in the resulting data frame? choose from: "old", "new" or "both"
 #' @param drop_old keep only the new column after recoding
 #' @import dplyr
 #' @export
@@ -168,6 +172,9 @@ use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), drop_old =
 
 
 #' Batch modify a value map
+#'
+#' Apply a function on `old_value`s and assign the result to `new_value`s.
+#' Changes made on an object yields a new copy; Changes made on a file are written back to the file.
 #'
 #' @param lookup a value map
 #' @param .fun a function to be applied to old_value
