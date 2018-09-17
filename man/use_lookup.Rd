@@ -5,7 +5,7 @@
 \title{Use lookup table to replace values in a data frame}
 \usage{
 use_lookup(.data, lookup, mark = c("old", "new", "both"),
-  use_na = TRUE, drop_old = TRUE)
+  use_na = FALSE, drop_old = TRUE)
 }
 \arguments{
 \item{.data}{a data frame}
