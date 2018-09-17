@@ -27,7 +27,7 @@ build_lookup <- function(.data, ...){
         for (i in seq_along(unique_values)) {
                 single <- data.frame(namez[i], unique_values[i], NA)
                 names(single) <- c("col_name", "old_value", "new_value")
-                res <- rbind(lookup, single)
+                res <- rbind(res, single)
         }
 
         res <- res %>% transmute_all(as.character) %>% as_tibble()
@@ -124,10 +124,11 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #' @param .data a data frame
 #' @param lookup a lookup table, or a path pointing to a file containing such
 #' @param mark mark which column name in the resulting data frame? choose from: "old", "new" or "both"
+#' @param use_na use NAs in `new_value` for replacement; if FALSE, use `old_value` as `new_value`
 #' @param drop_old keep only the new column after recoding
 #' @import dplyr
 #' @export
-use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), drop_old = TRUE) {
+use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), use_na = TRUE, drop_old = TRUE) {
         if (is.character(lookup)) { # read from file, if so deviced
                 path <- lookup
                 lookup <- read_lookup(path)
@@ -140,6 +141,10 @@ use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), drop_old =
 
         if (any(mark %in% c("old", "new", "both"))) { # if mark is specified, skip drop old
                 drop_old <- FALSE
+        }
+
+        if (!use_na) { # rows with NA `new_value`s, retain `old_value`
+                lookup$new_value[is.na(lookup$new_value)] <- lookup$old_value[is.na(lookup$new_value)]
         }
 
         var_names <- unique(lookup$col_name)

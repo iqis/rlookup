@@ -5,7 +5,7 @@
 \title{Use lookup table to replace values in a data frame}
 \usage{
 use_lookup(.data, lookup, mark = c("old", "new", "both"),
-  drop_old = TRUE)
+  use_na = TRUE, drop_old = TRUE)
 }
 \arguments{
 \item{.data}{a data frame}
@@ -13,6 +13,8 @@ use_lookup(.data, lookup, mark = c("old", "new", "both"),
 \item{lookup}{a lookup table, or a path pointing to a file containing such}
 
 \item{mark}{mark which column name in the resulting data frame? choose from: "old", "new" or "both"}
+
+\item{use_na}{use NAs in `new_value` for replacement; if FALSE, use `old_value` as `new_value`}
 
 \item{drop_old}{keep only the new column after recoding}
 }
