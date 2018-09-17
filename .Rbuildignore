@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 fiddle.R
+^appveyor\.yml$
+^README\.Rmd$
+^README-.*\.png$
