@@ -1,10 +1,10 @@
 Package: rlookup
 Type: Package
-Title: Lookup utilities for recoding strings in a data frame
+Title: Utilities for recoding strings in data frame columns
 Version: 0.1.0.9000
 Author: Iqis Gnahz <iqis.gnahz@gmail.com>
 Maintainer: Iqis Gnahz <iqis.gnahz@gmail.com>
-Description: Program and data should be separate. Use this package to create a value map file, editing the pairs, and recode variables in a data frame.
+Description: Create a mapping from a data frame, edit the pairs, and use it to recode values in desired columns.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

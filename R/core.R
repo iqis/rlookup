@@ -1,6 +1,6 @@
 #' rlookup
 #'
-#' Lookup utilities for recoding strings in a data frame
+#' Lookup utilities for recoding strings in a data frame columns
 #'
 #' @name rlookup-package
 #' @docType package
@@ -46,9 +46,7 @@ build_lookup <- function(.data, ...){
 write_lookup <- function(lookup, path, overwrite = FALSE) {
         if (!is_lookup(lookup)) {stop("not a `lookup` object")}
 
-        its_there <- file.exists(path)
-
-        if (its_there & overwrite == FALSE) { # join file with new lookup
+        if (file.exists(path) & overwrite == FALSE) { # join with new lookup if file exists
                 lookup0 <- read_lookup(path)
                 lookup <- lookup %>%
                         select(-.data$new_value) %>%
