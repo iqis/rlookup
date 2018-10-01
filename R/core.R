@@ -124,7 +124,7 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #' @param drop_old keep only the new column after recoding
 #' @import dplyr
 #' @export
-use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), use_na = FALSE, drop_old = TRUE) {
+use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), old_suffix = "__old__", new_suffix = "__new__", use_na = FALSE, drop_old = TRUE) {
         if (is.character(lookup)) { # read from file, if so deviced
                 path <- lookup
                 lookup <- read_lookup(path)
@@ -150,8 +150,8 @@ use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), use_na = F
         for (var_name in var_names) {  # loop over variables, join new coding to data
                 sub_lookup <- lookup[lookup$col_name == var_name, c(2,3)]
 
-                var_name_old <- paste0(var_name, "_old_")
-                var_name_new <- paste0(var_name, "_new_")
+                var_name_old <- paste0(var_name, old_suffix)
+                var_name_new <- paste0(var_name, new_suffix)
 
                 names(sub_lookup) <- c(var_name,
                                       var_name_new)
