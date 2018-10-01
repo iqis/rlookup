@@ -119,12 +119,15 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #'
 #' @param .data a data frame
 #' @param lookup a lookup table, or a path pointing to a file containing such
-#' @param mark mark which column name in the resulting data frame? choose from: "old", "new" or "both"
-#' @param use_na use NAs in `new_value` for replacement; if FALSE, use `old_value` as `new_value`
+#' @param ... column names
 #' @param drop_old keep only the new column after recoding
+#' @param mark mark which column name in the resulting data frame? choose from: "old", "new" or "both"
+#' @param old_suffix a string for suffixing column containing old values
+#' @param new_suffix a string for suffixing column containing new values
+#' @param use_na use NAs in `new_value` for replacement; if FALSE, use `old_value` as `new_value`
 #' @import dplyr tibble
 #' @export
-use_lookup <- function(.data, lookup, ..., mark = c("old", "new", "both"), old_suffix = "__old__", new_suffix = "__new__", use_na = FALSE, drop_old = TRUE) {
+use_lookup <- function(.data, lookup, ..., drop_old = TRUE, mark = c("old", "new", "both"), old_suffix = "__old__", new_suffix = "__new__", use_na = FALSE) {
         if (is.character(lookup)) { # read from file, if so deviced
                 path <- lookup
                 lookup <- read_lookup(path)
@@ -135,7 +138,7 @@ use_lookup <- function(.data, lookup, ..., mark = c("old", "new", "both"), old_s
                 mark <- ""
         }
 
-        if (any(mark %in% c("old", "new", "both"))) { # if mark is specified, skip drop old
+        if (any(mark %in% c("old", "new", "both"))) { # if mark is specified, drop_old FALSE
                 drop_old <- FALSE
         }
 
@@ -143,33 +146,53 @@ use_lookup <- function(.data, lookup, ..., mark = c("old", "new", "both"), old_s
                 lookup$new_value[is.na(lookup$new_value)] <- lookup$old_value[is.na(lookup$new_value)]
         }
 
-        var_names <- match.call(expand.dots = FALSE)$... %>% paste() # capture dots for variable names
-        if (length(var_names) == 0) var_names <- unique(lookup$col_name) # if not supplied, use all available in lookup
+        dots <- match.call(expand.dots = FALSE)$...         # capture dots for column names
+        if (length(dots) == 0) {  # if not supplied, use all available in lookup
+                var_names <- unique(lookup$col_name)
+                } else {
+                var_names <- paste(dots) # extract column names
+                specified_var_names <- names(dots) # extract explicitly specified new columns names
+                }
 
         res <- .data %>% mutate_at(vars(var_names), .funs = as.character) # coerce target vars to character
 
-        for (var_name in var_names) {  # loop over variables, join new values to data
-                sub_lookup <- lookup[lookup$col_name == var_name, c(2,3)]
 
-                var_name_old <- paste0(var_name, old_suffix)
-                var_name_new <- paste0(var_name, new_suffix)
+        for (i in seq_along(var_names)) {  # loop over variables, join new values to data
 
-                names(sub_lookup) <- c(var_name,
-                                      var_name_new)
+                # old and new column names
+                var_name__old__ <- paste0(var_names[i], old_suffix)
+                var_name__new__ <- paste0(var_names[i], new_suffix)
 
-                res <- res %>% left_join(sub_lookup, by = var_name)
+                # filter lookup with column name
+                sub_lookup <- lookup[lookup$col_name == var_names[i], c(2,3)]
+
+                names(sub_lookup) <- c(var_names[i],
+                                      var_name__new__) #
+
+                res <- res %>% left_join(sub_lookup, by = var_names[i])
 
                 if (mark == "both") {
-                        names(res)[names(res) == var_name] <- var_name_old
+                        names(res)[names(res) == var_names[i]] <- var_name__old__
                 } else if (mark == "old") {
-                        names(res)[names(res) == var_name] <- var_name_old
-                        names(res)[names(res) == var_name_new] <- var_name
+                        names(res)[names(res) == var_names[i]] <- var_name__old__
+                        names(res)[names(res) == var_name__new__] <- var_names[i]
                 }
 
                 if (drop_old) {
-                        res[var_name] <- NULL
-                        names(res)[names(res) == var_name_new] <- var_name
+                        res[var_names[i]] <- NULL
+                        names(res)[names(res) == var_name__new__] <- var_names[i]
                 }
+
+                # rename column if name explicitly specified, overidding any previous
+                if (exists("specified_var_names") && !specified_var_names[i] == "") {
+                        if (isTRUE(drop_old)) { # if drop_old, column name will already be renamed the original
+                                names(res)[names(res) == var_names[i]] <- specified_var_names[i] #name new column to specified name
+                        } else {
+                                names(res)[names(res) == var_name__old__] <- var_names[i] #name old column back to original
+                                names(res)[names(res) == var_name__new__] <- specified_var_names[i] #name new column to specified name
+                        }
+                }
+
         }
 
         as_tibble(res)
@@ -184,7 +207,7 @@ use_lookup <- function(.data, lookup, ..., mark = c("old", "new", "both"), old_s
 #'
 #' @param lookup a lookup table
 #' @param .fun a function to be applied to old_value
-#' @param ... a vector containing col_name
+#' @param ... column names
 #' @import dplyr readr
 #' @export
 modify_lookup <- function(lookup, .fun, ...){
