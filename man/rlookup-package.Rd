@@ -6,5 +6,5 @@
 \alias{rlookup-package}
 \title{rlookup}
 \description{
-Lookup utilities for recoding strings in a data frame
+Lookup utilities for recoding strings in a data frame columns
 }

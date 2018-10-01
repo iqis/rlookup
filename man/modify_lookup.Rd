@@ -11,7 +11,7 @@ modify_lookup(lookup, .fun, ...)
 
 \item{.fun}{a function to be applied to old_value}
 
-\item{...}{a vector containing col_name}
+\item{...}{column names}
 }
 \description{
 Apply a function on `old_value`s and assign the result to `new_value`s.
