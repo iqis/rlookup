@@ -122,9 +122,9 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #' @param mark mark which column name in the resulting data frame? choose from: "old", "new" or "both"
 #' @param use_na use NAs in `new_value` for replacement; if FALSE, use `old_value` as `new_value`
 #' @param drop_old keep only the new column after recoding
-#' @import dplyr
+#' @import dplyr tibble
 #' @export
-use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), old_suffix = "__old__", new_suffix = "__new__", use_na = FALSE, drop_old = TRUE) {
+use_lookup <- function(.data, lookup, ..., mark = c("old", "new", "both"), old_suffix = "__old__", new_suffix = "__new__", use_na = FALSE, drop_old = TRUE) {
         if (is.character(lookup)) { # read from file, if so deviced
                 path <- lookup
                 lookup <- read_lookup(path)
@@ -143,11 +143,12 @@ use_lookup <- function(.data, lookup, mark = c("old", "new", "both"), old_suffix
                 lookup$new_value[is.na(lookup$new_value)] <- lookup$old_value[is.na(lookup$new_value)]
         }
 
-        var_names <- unique(lookup$col_name)
+        var_names <- match.call(expand.dots = FALSE)$... %>% paste() # capture dots for variable names
+        if (length(var_names) == 0) var_names <- unique(lookup$col_name) # if not supplied, use all available in lookup
 
         res <- .data %>% mutate_at(vars(var_names), .funs = as.character) # coerce target vars to character
 
-        for (var_name in var_names) {  # loop over variables, join new coding to data
+        for (var_name in var_names) {  # loop over variables, join new values to data
                 sub_lookup <- lookup[lookup$col_name == var_name, c(2,3)]
 
                 var_name_old <- paste0(var_name, old_suffix)
