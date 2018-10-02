@@ -125,7 +125,7 @@ edit_lookup <- function(lookup, quiet = FALSE) {
 #' @param old_suffix a string for suffixing column containing old values
 #' @param new_suffix a string for suffixing column containing new values
 #' @param use_na use NAs in `new_value` for replacement; if FALSE, use `old_value` as `new_value`
-#' @import dplyr tibble
+#' @import dplyr
 #' @export
 use_lookup <- function(.data, lookup, ..., drop_old = TRUE, mark = c("old", "new", "both"), old_suffix = "__old__", new_suffix = "__new__", use_na = FALSE) {
         if (is.character(lookup)) { # read from file, if so deviced
